@@ -92,14 +92,24 @@ func (m AppModule) RegisterInvariants(_ sdk.InvariantRegistry) {
 
 func (m AppModule) InitGenesis(ctx sdk.Context, cdc codec.JSONCodec, gs json.RawMessage) {
 	var genState types.GenesisState
-	gs = cdc.MustMarshalJSON(&genState)
-	//ToDo:InitGenesis()
+	cdc.MustUnmarshalJSON(gs, &genState)
+	err := m.keeper.InitGenesis(ctx, &genState)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func (m AppModule) ExportGenesis(ctx sdk.Context, cdc codec.JSONCodec) json.RawMessage {
-	//ToDo: genState := ExportGenesis(ctx, m.keeper)
-	//ToDo: return genesis msg
-	return nil
+	genState, err := m.keeper.ExportGenesis(ctx)
+	if err != nil {
+		panic(err)
+	}
+	bz, err := genState.Marshal()
+	if err != nil {
+		panic(err)
+	}
+
+	return bz
 }
 
 func (AppModule) ConsensusVersion() uint64 {
