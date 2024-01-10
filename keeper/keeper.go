@@ -34,7 +34,7 @@ func NewKeeper(
 	// bankKeeper types.BankKeeper,
 ) Keeper {
 	if _, err := sdk.AccAddressFromBech32(authority); err != nil {
-		panic(fmt.Sprint("invalid authority address: %s", authority))
+		panic(fmt.Sprintf("invalid authority address: %s", authority))
 	}
 
 	return Keeper{
