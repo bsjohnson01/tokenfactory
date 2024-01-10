@@ -1,5 +1,7 @@
 package types
 
+import "fmt"
+
 // DefaultIndex is the default global index
 const DefaultIndex uint64 = 1
 
@@ -19,14 +21,13 @@ func (gs GenesisState) Validate() error {
 	denomIndexMap := make(map[string]struct{})
 	_ = denomIndexMap
 
-	//for _, elem := range gs.DenomList {
-	//	index := string(DenomKey(elem.Denom))
-	//	if _, ok := denomIndexMap[index]; ok {
-	//		return fmt.Errorf("duplicated index for denom")
-	//	}
-	//	denomIndexMap[index] = struct{}{}
-	//}
-	// this line is used by starport scaffolding # genesis/types/validate
+	for _, elem := range gs.DenomList {
+		index := string(DenomKey(elem.Denom))
+		if _, ok := denomIndexMap[index]; ok {
+			return fmt.Errorf("duplicated index for denom")
+		}
+		denomIndexMap[index] = struct{}{}
+	}
 
 	return gs.Params.Validate()
 }
