@@ -6,7 +6,7 @@ import (
 	"github.com/bsjohnson01/tokenfactory/types"
 )
 
-func (k *Keeper) InitGenesis(ctx context.Context, data *types.GenesisState) error {
+func (k Keeper) InitGenesis(ctx context.Context, data *types.GenesisState) error {
 	for _, elem := range data.DenomList {
 		k.SetDenom(ctx, elem)
 	}
@@ -17,7 +17,7 @@ func (k *Keeper) InitGenesis(ctx context.Context, data *types.GenesisState) erro
 	return nil
 }
 
-func (k *Keeper) ExportGenesis(ctx context.Context) (*types.GenesisState, error) {
+func (k Keeper) ExportGenesis(ctx context.Context) (*types.GenesisState, error) {
 	genesis := types.DefaultGenesis()
 	genesis.Params = k.GetParams(ctx)
 
